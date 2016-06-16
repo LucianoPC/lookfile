@@ -1,5 +1,6 @@
 require 'command'
 require 'commands/init'
+require 'commands/add'
 
 # Command 'lookfile' implementation
 class Look < Command
@@ -16,6 +17,6 @@ class Look < Command
   end
 
   def self.childrens
-    [Init]
+    [Init, Add]
   end
 end
