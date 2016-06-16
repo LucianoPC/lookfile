@@ -7,8 +7,9 @@ module Lookfile
   BASE_DIR = '~/'.freeze
   LOOKFILE_DIR = '.lookfile/'.freeze
 
-  def initialize
-    dir = lookfile_dir
+  def initialize(base_dir = BASE_DIR)
+    dir = lookfile_dir(base_dir)
+    puts "initialize: #{File.directory?(dir)}"
     return nil if File.directory?(dir)
     Dir.mkdir(dir)
     dir
