@@ -22,7 +22,7 @@ class Add < Command
   def self.run(argv)
     added_files, error_files = Lookfile.add_files(argv)
 
-    puts "Added files:" unless added_files.empty?
+    puts 'Added files:' unless added_files.empty?
     added_files.each do |file|
       puts "  #{file}"
     end

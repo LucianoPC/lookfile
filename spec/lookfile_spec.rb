@@ -38,8 +38,10 @@ describe Lookfile do
 
     it 'initialize lookfile' do
       lookfile_dir = Lookfile.initialize(BASE_DIR)
+      git_status = `GIT_DIR=#{lookfile_dir}/.git git status`
 
       expect(lookfile_dir).to eq "#{BASE_DIR}/#{Lookfile::LOOKFILE_DIR}"
+      expect(git_status).to include('On branch master')
     end
   end
 

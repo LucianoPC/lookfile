@@ -12,6 +12,7 @@ module Lookfile
     lookfile_dir = load_lookfile_dir(base_dir)
     return nil if File.directory?(lookfile_dir)
     Dir.mkdir(lookfile_dir)
+    git_init(lookfile_dir)
     lookfile_dir
   end
 
@@ -43,5 +44,9 @@ module Lookfile
     rescue
       false
     end
+  end
+
+  def git_init(directory)
+    `GIT_DIR=#{directory}/.git git init`
   end
 end
