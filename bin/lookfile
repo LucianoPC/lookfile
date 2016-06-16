@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'commands/look'
+
+def main
+  Look.run(ARGV)
+end
+
+main
