@@ -45,7 +45,7 @@ describe Lookfile do
 
   describe 'Add files to lookfile folder' do
     it 'can add an existing file' do
-      added_files, _ = Lookfile.add_files(TEST_FILE)
+      added_files, = Lookfile.add_files(TEST_FILE)
 
       expect(added_files).to include(TEST_FILE)
     end

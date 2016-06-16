@@ -24,19 +24,24 @@ module Lookfile
   def add_files(files_path, base_dir = BASE_DIR)
     files_path = [files_path] unless files_path.is_a?(Array)
     files_path = files_path.map { |file_path| File.expand_path(file_path) }
-    lookfile_dir = load_lookfile_dir(base_dir)
     added_files = []
     error_files = []
     files_path.each do |file_path|
-      folder_path = lookfile_dir + file_path.scan(/(.+)\//).flatten.first
-      FileUtils.mkpath(folder_path)
-      begin
-        FileUtils.cp(file_path, folder_path)
-        added_files << file_path
-      rescue
-        error_files << file_path
-      end
+      list = add_one_file(file_path, base_dir) ? added_files : error_files
+      list << file_path
     end
     [added_files, error_files]
+  end
+
+  def add_one_file(file_path, base_dir = BASE_DIR)
+    lookfile_dir = load_lookfile_dir(base_dir)
+    folder_path = lookfile_dir + file_path.scan(%r{(.+)\/}).flatten.first
+    FileUtils.mkpath(folder_path)
+    begin
+      FileUtils.cp(file_path, folder_path)
+      true
+    rescue
+      false
+    end
   end
 end
