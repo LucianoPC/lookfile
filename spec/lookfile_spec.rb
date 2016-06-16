@@ -22,5 +22,4 @@ describe Lookfile do
       expect(lookfile_dir).to include(Lookfile::LOOKFILE_DIR)
     end
   end
-
 end

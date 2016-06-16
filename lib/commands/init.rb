@@ -19,13 +19,12 @@ class Init < Command
     Look
   end
 
-  def self.run(argv)
+  def self.run(*)
     dir = Lookfile.initialize
     if dir
       puts "Initialize lookfile on: #{dir}"
     else
-      puts "lookfile was already initialized"
+      puts 'lookfile was already initialized'
     end
   end
 end
-

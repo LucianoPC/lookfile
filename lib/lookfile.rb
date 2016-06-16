@@ -4,7 +4,7 @@ require 'lookfile/version'
 module Lookfile
   module_function
 
-  BASE_DIR = '~/'
+  BASE_DIR = '~/'.freeze
   LOOKFILE_DIR = '.lookfile/'.freeze
 
   def initialize
