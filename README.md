@@ -1,4 +1,4 @@
-# Lookfile
+# Lookfile [![Build Status](https://travis-ci.org/LucianoPC/lookfile.svg?branch=master)](https://travis-ci.org/LucianoPC/lookfile)
 
 Version files usage on day-to-day can be cansative and exaustive, mainly
 because that files are on diferent folders, and group there it's a hard

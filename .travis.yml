@@ -2,4 +2,12 @@ sudo: false
 language: ruby
 rvm:
   - 2.3.1
-before_install: gem install bundler -v 1.12.5
+before_install:
+  - gem install bundler -v 1.12.3
+  - gem install rubocop -v 0.40.0
+  - git config --global user.name "Your Name"
+  - git config --global user.email "you@example.com"
+script:
+  - rubocop .
+  - bundle exec rspec spec
+  - rake build
