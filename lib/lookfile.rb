@@ -55,11 +55,11 @@ module Lookfile
   end
 
   def show_files(header_message, files_path)
-    message = "#{header_message}" unless files_path.empty?
+    message = header_message.to_s unless files_path.empty?
     files_path.each do |file_path|
       message += "\n  #{file_path}"
     end
-    message ||= ""
+    message ||= ''
     message
   end
 
@@ -71,7 +71,7 @@ module Lookfile
 
   def update_files(base_dir = BASE_DIR)
     lookfile_dir = load_lookfile_dir(base_dir)
-    files_regex = /^#{lookfile_dir}(?!\/.git)(.+)$/
+    files_regex = %r{^#{lookfile_dir}(?!\/.git)(.+)$}
     files_path = `find #{lookfile_dir} -type f`.scan(files_regex).flatten
     add_files(files_path, base_dir)
   end
