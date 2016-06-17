@@ -73,7 +73,7 @@ describe Lookfile do
     it 'add a new file' do
       Lookfile.initialize(BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
-      message = Lookfile.update(BASE_DIR)
+      message = Lookfile.status(BASE_DIR)
 
       expect(message).to include('Added files')
       expect(message).to include(TEST_FILE[1..-1])
@@ -82,9 +82,9 @@ describe Lookfile do
     it 'modify a file' do
       Lookfile.initialize(BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
-      Lookfile.update(BASE_DIR)
+      Lookfile.push(BASE_DIR)
       open(TEST_FILE, 'a') { |file| file.puts('modified') }
-      message = Lookfile.update(BASE_DIR)
+      message = Lookfile.status(BASE_DIR)
 
       expect(message).to include('Modified files')
       expect(message).to include(TEST_FILE[1..-1])
@@ -93,10 +93,10 @@ describe Lookfile do
     it 'remove a file' do
       Lookfile.initialize(BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
-      Lookfile.update(BASE_DIR)
+      Lookfile.push(BASE_DIR)
       lookfile_dir = Lookfile.load_lookfile_dir(BASE_DIR)
       FileUtils.rm_rf(lookfile_dir + TEST_FILE)
-      message = Lookfile.update(BASE_DIR)
+      message = Lookfile.status(BASE_DIR)
 
       expect(message).to include('Deleted files')
       expect(message).to include(TEST_FILE[1..-1])
@@ -105,10 +105,10 @@ describe Lookfile do
     it 'do nothing if not have changes on file' do
       Lookfile.initialize(BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
-      Lookfile.update(BASE_DIR)
-      message = Lookfile.update(BASE_DIR)
+      Lookfile.push(BASE_DIR)
+      message = Lookfile.status(BASE_DIR)
 
-      expect(message).to include('Nothing to update')
+      expect(message).to be_empty
     end
   end
 end

@@ -38,16 +38,22 @@ module Git
     `#{git} pull origin master`
   end
 
-  def commit(base_dir = BASE_DIR)
+  def status(base_dir = BASE_DIR)
     git = load_git_command(base_dir)
     untracked_files = `#{git} ls-files --others --exclude-standard`.split
     deleted_files = `#{git} ls-files --deleted`.split
     modified_files = `#{git} ls-files --modified`.split - deleted_files
-    `#{git} add --all`
     message = Lookfile.show_files("\nAdded files:", untracked_files)
     message += Lookfile.show_files("\nModified files:", modified_files)
     message += Lookfile.show_files("\nDeleted files:", deleted_files)
-    return nil unless make_commit?(message, base_dir)
+    message.strip
+  end
+
+  def commit(base_dir = BASE_DIR)
+    git = load_git_command(base_dir)
+    message = status(base_dir)
+    `#{git} add --all`
+    return nil if !make_commit?(message, base_dir) || message.empty?
     message
   end
 

@@ -2,8 +2,9 @@ require 'command'
 require 'commands/init'
 require 'commands/add'
 require 'commands/set_repository'
-require 'commands/update'
+require 'commands/push'
 require 'commands/show'
+require 'commands/status'
 
 # Command 'lookfile' implementation
 class Look < Command
@@ -20,6 +21,6 @@ class Look < Command
   end
 
   def self.childrens
-    [Init, Add, Update, Show, SetRepository]
+    [Init, Add, Push, Status, Show, SetRepository]
   end
 end

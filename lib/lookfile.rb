@@ -36,17 +36,22 @@ module Lookfile
     show_files('Files on lookfile:', files_path)
   end
 
-  def set_repository(repository_ssh_name, base_dir = BASE_DIR)
-    Git.set_remote(repository_ssh_name, base_dir)
-    Git.rebase(base_dir)
+  def status(base_dir = BASE_DIR)
+    update_files(base_dir)
+    Git.status(base_dir)
   end
 
-  def update(base_dir = BASE_DIR)
+  def push(base_dir = BASE_DIR)
     update_files(base_dir)
     message = Git.commit(base_dir)
     return 'Nothing to update' if message.nil?
     Git.push(base_dir) if Git.remote?(base_dir)
     message
+  end
+
+  def set_repository(repository_ssh_name, base_dir = BASE_DIR)
+    Git.set_remote(repository_ssh_name, base_dir)
+    Git.rebase(base_dir)
   end
 
   def add_one_file(file_path, base_dir = BASE_DIR)

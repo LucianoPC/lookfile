@@ -4,15 +4,15 @@ require 'commands/look'
 require 'lookfile'
 
 # Command 'lookfile update' implementation
-class Update < Command
+class Push < Command
   def self.options_messages
-    %(  update \t $ lookfile update
-  \t\t - Update files to lookfile and push to repository
+    %(  push \t\t $ lookfile push
+  \t\t - Push files on lookfile to repository
     )
   end
 
   def self.command_name
-    'update'
+    'push'
   end
 
   def self.parent
@@ -20,7 +20,7 @@ class Update < Command
   end
 
   def self.run(*)
-    message = Lookfile.update
+    message = Lookfile.push
     puts message
   end
 end
