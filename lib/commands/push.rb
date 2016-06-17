@@ -7,7 +7,7 @@ require 'lookfile'
 class Push < Command
   def self.options_messages
     %(  push \t\t $ lookfile push
-  \t\t - Push files on lookfile to repository
+  \t\t - Commit files on lookfile and push to repository
     )
   end
 
