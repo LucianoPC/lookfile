@@ -2,16 +2,20 @@ require 'spec_helper'
 require 'fileutils'
 
 BASE_DIR = File.expand_path('~/.test_lookfile')
+GIT_DIR = File.expand_path('~/.test_lookfile_git')
 TEST_FILE = File.expand_path('~/.test_file')
 
 describe Lookfile do
   before do
     Dir.mkdir(BASE_DIR)
+    Dir.mkdir(GIT_DIR)
+    `git -C '#{GIT_DIR}' init --bare`
     FileUtils.touch(TEST_FILE)
   end
 
   after do
     FileUtils.rm_rf(BASE_DIR)
+    FileUtils.rm_rf(GIT_DIR)
     FileUtils.rm_rf(TEST_FILE)
   end
 
@@ -69,46 +73,71 @@ describe Lookfile do
     end
   end
 
-  describe 'Version files' do
+  describe 'Version files on repository' do
     it 'add a new file' do
+      repository_ssh_name = "file://#{GIT_DIR}"
       Lookfile.initialize(BASE_DIR)
+      Lookfile.set_repository(repository_ssh_name, BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
-      message = Lookfile.status(BASE_DIR)
+      message = Lookfile.push(BASE_DIR)
+      git_head_message = `git -C '#{GIT_DIR}' show HEAD`
+      n_commits = `git -C '#{GIT_DIR}' log | grep 'commit' -c`
 
+      expect(n_commits).to eq("1\n")
       expect(message).to include('Added files')
       expect(message).to include(TEST_FILE[1..-1])
+      expect(git_head_message).to include('Added files')
+      expect(git_head_message).to include(TEST_FILE[1..-1])
     end
 
     it 'modify a file' do
+      repository_ssh_name = "file://#{GIT_DIR}"
       Lookfile.initialize(BASE_DIR)
+      Lookfile.set_repository(repository_ssh_name, BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
       Lookfile.push(BASE_DIR)
       open(TEST_FILE, 'a') { |file| file.puts('modified') }
-      message = Lookfile.status(BASE_DIR)
+      message = Lookfile.push(BASE_DIR)
+      git_head_message = `git -C '#{GIT_DIR}' show HEAD`
+      n_commits = `git -C '#{GIT_DIR}' log | grep 'commit' -c`
 
+      expect(n_commits).to eq("2\n")
       expect(message).to include('Modified files')
       expect(message).to include(TEST_FILE[1..-1])
+      expect(git_head_message).to include('Modified files')
+      expect(git_head_message).to include(TEST_FILE[1..-1])
     end
 
     it 'remove a file' do
+      repository_ssh_name = "file://#{GIT_DIR}"
       Lookfile.initialize(BASE_DIR)
+      Lookfile.set_repository(repository_ssh_name, BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
       Lookfile.push(BASE_DIR)
       lookfile_dir = Lookfile.load_lookfile_dir(BASE_DIR)
       FileUtils.rm_rf(lookfile_dir + TEST_FILE)
-      message = Lookfile.status(BASE_DIR)
+      message = Lookfile.push(BASE_DIR)
+      git_head_message = `git -C '#{GIT_DIR}' show HEAD`
+      n_commits = `git -C '#{GIT_DIR}' log | grep 'commit' -c`
 
+      expect(n_commits).to eq("2\n")
       expect(message).to include('Deleted files')
       expect(message).to include(TEST_FILE[1..-1])
+      expect(git_head_message).to include('Deleted files')
+      expect(git_head_message).to include(TEST_FILE[1..-1])
     end
 
     it 'do nothing if not have changes on file' do
+      repository_ssh_name = "file://#{GIT_DIR}"
       Lookfile.initialize(BASE_DIR)
+      Lookfile.set_repository(repository_ssh_name, BASE_DIR)
       Lookfile.add_files(TEST_FILE, BASE_DIR)
       Lookfile.push(BASE_DIR)
-      message = Lookfile.status(BASE_DIR)
+      message = Lookfile.push(BASE_DIR)
+      n_commits = `git -C '#{GIT_DIR}' log | grep 'commit' -c`
 
-      expect(message).to be_empty
+      expect(message).to include('Nothing to update')
+      expect(n_commits).to eq("1\n")
     end
   end
 end
