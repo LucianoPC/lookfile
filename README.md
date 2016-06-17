@@ -34,8 +34,14 @@ Or install it yourself as:
     add        $ lookfile add [file 0] [file 1] ... [file n]
                - Add files to lookfile
 
-    update     $ lookfile update
-               - Update files to lookfile and push to repository
+    push       $ lookfile push
+               - Commit files on lookfile and push to repository
+
+    status     $ lookfile status
+               - Show status of files on lookfile
+
+    show       $ lookfile show
+               - Show all files that are on lookfile
 
     setrepo    $ lookfile setrepo [repository_ssh]
                - Set lookfile repository to save files
