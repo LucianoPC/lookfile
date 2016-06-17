@@ -21,15 +21,8 @@ class Add < Command
 
   def self.run(argv)
     added_files, error_files = Lookfile.add_files(argv)
-
-    puts 'Added files:' unless added_files.empty?
-    added_files.each do |file|
-      puts "  #{file}"
-    end
-
-    puts "\nError to add files, check if exists:" unless error_files.empty?
-    error_files.each do |file|
-      puts "  #{file}"
-    end
+    puts Lookfile.show_files('Added files:', added_files)
+    puts Lookfile.show_files('Error to add files, check if exists:',
+                             error_files)
   end
 end
