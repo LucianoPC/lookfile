@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Version files usage on day-to-day can be cansative ' \
                        'and exaustive, mainly because that files are on ' \
                        "diferent folders, and group there it's a hard work " \
-                       ',therefore, the people does not can version that ' \
+                       ', therefore, the people does not can version that ' \
                        "file. With this gem it's can change, because this " \
                        'gem can group all files that you need in a ' \
                        'repository, and version all these files with a ' \
