@@ -1,4 +1,4 @@
-# Lookfile [![Build Status](https://travis-ci.org/LucianoPC/lookfile.svg?branch=master)](https://travis-ci.org/LucianoPC/lookfile) [![Code Climate](https://codeclimate.com/github/LucianoPC/lookfile/badges/gpa.svg)](https://codeclimate.com/github/LucianoPC/lookfile)
+# Lookfile [![Build Status](https://travis-ci.org/LucianoPC/lookfile.svg?branch=master)](https://travis-ci.org/LucianoPC/lookfile) [![Code Climate](https://codeclimate.com/github/LucianoPC/lookfile/badges/gpa.svg)](https://codeclimate.com/github/LucianoPC/lookfile) [![Gem Version](https://badge.fury.io/rb/lookfile.svg)](https://badge.fury.io/rb/lookfile)
 
 Version files usage on day-to-day can be cansative and exaustive, mainly
 because that files are on diferent folders, and group there it's a hard
