@@ -47,7 +47,7 @@ describe Lookfile do
 
   describe 'Add files to lookfile folder' do
     it 'can add an existing file' do
-      added_files, = Lookfile.add_files(TEST_FILE)
+      added_files, = Lookfile.add_files(TEST_FILE, BASE_DIR)
 
       expect(added_files).to include(TEST_FILE)
     end
@@ -55,9 +55,52 @@ describe Lookfile do
     it 'can not add an non existent file' do
       non_existent_file_name = '~/.lookfile_non_existent_file'
       non_existent_file_name = File.expand_path(non_existent_file_name)
-      _, error_files = Lookfile.add_files(non_existent_file_name)
+      _, error_files = Lookfile.add_files(non_existent_file_name, BASE_DIR)
 
       expect(error_files).to include(non_existent_file_name)
+    end
+  end
+
+  describe 'Version files' do
+    it 'add a new file' do
+      Lookfile.initialize(BASE_DIR)
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      message = Lookfile.update(BASE_DIR)
+
+      expect(message).to include('Added files')
+      expect(message).to include(TEST_FILE[1..-1])
+    end
+
+    it 'modify a file' do
+      Lookfile.initialize(BASE_DIR)
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      Lookfile.update(BASE_DIR)
+      open(TEST_FILE, 'a') { |file| file.puts('modified') }
+      message = Lookfile.update(BASE_DIR)
+
+      expect(message).to include('Modified files')
+      expect(message).to include(TEST_FILE[1..-1])
+    end
+
+    it 'remove a file' do
+      Lookfile.initialize(BASE_DIR)
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      Lookfile.update(BASE_DIR)
+      lookfile_dir = Lookfile.load_lookfile_dir(BASE_DIR)
+      FileUtils.rm_rf(lookfile_dir + TEST_FILE)
+      message = Lookfile.update(BASE_DIR)
+
+      expect(message).to include('Deleted files')
+      expect(message).to include(TEST_FILE[1..-1])
+    end
+
+    it 'do nothing if not have changes on file' do
+      Lookfile.initialize(BASE_DIR)
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      Lookfile.update(BASE_DIR)
+      message = Lookfile.update(BASE_DIR)
+
+      expect(message).to include('Nothing to update')
     end
   end
 end

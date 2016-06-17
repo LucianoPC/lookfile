@@ -35,10 +35,10 @@ module Lookfile
   end
 
   def update(base_dir = BASE_DIR)
-    update_files
+    update_files(base_dir)
     message = git_commit(base_dir)
     return 'Nothing to update' if message.nil?
-    git_push(base_dir)
+    git_push(base_dir) if git_remote?(base_dir)
     message
   end
 
@@ -86,10 +86,15 @@ module Lookfile
     `#{git_dir} init`
   end
 
-  def git_set_remote(repository_ssh_name, base_dir = BASE_DIR)
+  def git_remote?(base_dir = BASE_DIR)
     git_dir = load_git_dir(base_dir)
     git_remote = `#{git_dir} remote`
-    `#{git_dir} remote remove origin` if git_remote.include?('origin')
+    git_remote.include?('origin')
+  end
+
+  def git_set_remote(repository_ssh_name, base_dir = BASE_DIR)
+    git_dir = load_git_dir(base_dir)
+    `#{git_dir} remote remove origin` if git_remote?(base_dir)
     `#{git_dir} remote add origin #{repository_ssh_name}`
   end
 
@@ -98,18 +103,19 @@ module Lookfile
     git_branchs = `#{git_dir} branch -a`
     return nil unless git_branchs.include?('remotes/origin/master')
     `#{git_dir} fetch origin -p`
-    `#{git_dir} pull --rebase origin master`
+    `#{git_dir} pull origin master`
   end
 
   def git_commit(base_dir = BASE_DIR)
     git_dir = load_git_dir(base_dir)
-    untracked_files = `#{git_dir} ls-files --others --exclude-standard`
-    modified_files = `#{git_dir} ls-files --modified`
-    deleted_files = `#{git_dir} ls-files --deleted`
+    untracked_files = `#{git_dir} ls-files --others --exclude-standard`.split
+    modified_files = `#{git_dir} ls-files --modified`.split
+    deleted_files = `#{git_dir} ls-files --deleted`.split
+    modified_files = modified_files - deleted_files
     `#{git_dir} add --all`
-    message = show_files('Added files:', untracked_files.split)
-    message += show_files('Modified files:', modified_files.split)
-    message += show_files('Deleted files:', deleted_files.split)
+    message = show_files("\nAdded files:", untracked_files)
+    message += show_files("\nModified files:", modified_files)
+    message += show_files("\nDeleted files:", deleted_files)
     return nil unless git_make_commit?(message, base_dir)
     message
   end
