@@ -29,6 +29,13 @@ module Lookfile
     [added_files, error_files]
   end
 
+  def show(base_dir = BASE_DIR)
+    lookfile_dir = load_lookfile_dir(base_dir)
+    files_regex = %r{^#{lookfile_dir}(?!\/.git)(.+)$}
+    files_path = `find #{lookfile_dir} -type f`.scan(files_regex).flatten
+    show_files('Files on lookfile:', files_path)
+  end
+
   def set_repository(repository_ssh_name, base_dir = BASE_DIR)
     Git.set_remote(repository_ssh_name, base_dir)
     Git.rebase(base_dir)

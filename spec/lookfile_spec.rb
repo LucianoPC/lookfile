@@ -59,6 +59,14 @@ describe Lookfile do
 
       expect(error_files).to include(non_existent_file_name)
     end
+
+    it 'show files on lookfile' do
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      message = Lookfile.show(BASE_DIR)
+
+      expect(message).to include('Files on lookfile:')
+      expect(message).to include(TEST_FILE)
+    end
   end
 
   describe 'Version files' do
