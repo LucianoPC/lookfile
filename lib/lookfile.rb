@@ -47,10 +47,10 @@ module Lookfile
     message
   end
 
-  def restore(base_dir = BASE_DIR)
+  def restore(files_path = [], base_dir = BASE_DIR)
     user_path = File.expand_path('~')
     lookfile_dir = load_lookfile_dir(base_dir)
-    files_path = list_files(base_dir)
+    files_path = [files_path] unless files_path.is_a?(Array)
     message = 'Restore Files:'
     files_path.each do |file|
       path = file.gsub(%r{\/home\/[^\/]+}, user_path)

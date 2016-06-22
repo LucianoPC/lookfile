@@ -20,6 +20,13 @@ class Restore < Command
   end
 
   def self.run(*)
-    puts Lookfile.restore
+    files_path = []
+    Lookfile.list_files.each do |file_path|
+      print "Restore file #{file_path} (Y/n): "
+      option = gets.chomp.upcase
+      option = 'Y' if option.empty?
+      files_path << file_path if option == 'Y'
+    end
+    puts Lookfile.restore(files_path)
   end
 end

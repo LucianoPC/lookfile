@@ -149,7 +149,8 @@ describe Lookfile do
 
       original_file = File.open(TEST_FILE, &:read)
       FileUtils.rm_rf(TEST_FILE)
-      message = Lookfile.restore(BASE_DIR)
+      files_path = Lookfile.list_files(BASE_DIR)
+      message = Lookfile.restore(files_path, BASE_DIR)
       restored_file = File.open(TEST_FILE, &:read)
 
       expect(message).to include(TEST_FILE)
