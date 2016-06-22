@@ -139,5 +139,21 @@ describe Lookfile do
       expect(message).to include('Nothing to update')
       expect(n_commits).to eq("1\n")
     end
+
+    it 'do restore a file' do
+      repository_ssh_name = "file://#{GIT_DIR}"
+      Lookfile.initialize(BASE_DIR)
+      Lookfile.set_repository(repository_ssh_name, BASE_DIR)
+      Lookfile.add_files(TEST_FILE, BASE_DIR)
+      Lookfile.push(BASE_DIR)
+
+      original_file = File.open(TEST_FILE, &:read)
+      FileUtils.rm_rf(TEST_FILE)
+      message = Lookfile.restore(BASE_DIR)
+      restored_file = File.open(TEST_FILE, &:read)
+
+      expect(message).to include(TEST_FILE)
+      expect(original_file).to eq(restored_file)
+    end
   end
 end
