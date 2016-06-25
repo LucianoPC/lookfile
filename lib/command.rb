@@ -24,6 +24,10 @@ class Command
     !childrens.empty?
   end
 
+  def self.usage_bottom
+    ''
+  end
+
   def self.run_childrens(argv)
     children_command = argv.first
     children = childrens.detect { |c| c.command_name == children_command }
@@ -46,7 +50,7 @@ class Command
       end
     end
 
-    puts usage_message
+    puts usage_message + "\n#{usage_bottom}"
   end
 
   def self.usage_header
