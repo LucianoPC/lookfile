@@ -13,11 +13,11 @@ class Command
   end
 
   def self.parent
-    raise 'return the parent command'
+    nil
   end
 
   def self.childrens
-    raise 'return the childrens commands'
+    []
   end
 
   def self.childrens?

@@ -23,7 +23,7 @@ class Restore < Command
     files_path = []
     Lookfile.list_files.each do |file_path|
       print "Restore file #{file_path} (Y/n): "
-      option = gets.chomp.upcase
+      option = $stdin.gets.chomp.upcase
       option = 'Y' if option.empty?
       files_path << file_path if option == 'Y'
     end

@@ -22,7 +22,11 @@ class SetRepository < Command
 
   def self.run(argv)
     repository_ssh_name = argv.first
-    Lookfile.set_repository(repository_ssh_name)
-    puts "Setted repository to: #{repository_ssh_name}"
+    if !repository_ssh_name.nil? && !repository_ssh_name.strip.empty?
+      Lookfile.set_repository(repository_ssh_name)
+      puts "Setted repository to: #{repository_ssh_name}"
+    else
+      puts "  Usage:\n\n#{options_messages}"
+    end
   end
 end
