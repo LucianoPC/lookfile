@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Luciano Prestes Cavalcanti']
   spec.email         = ['lucianopcbr@gmail.com']
 
-  spec.summary       = 'Version all files that you need'
+  spec.summary       = 'File versioning to save all files that you need a ' \
+                       'backup'
   spec.description   = 'Version files usage on day-to-day can be cansative ' \
                        'and exaustive, mainly because that files are on ' \
                        "diferent folders, and group there it's a hard work " \
@@ -19,7 +20,7 @@ Gem::Specification.new do |spec|
                        'repository, and version all these files with a ' \
                        'single command.'
   spec.homepage      = 'https://github.com/LucianoPC/lookfile'
-  spec.license       = 'MIT'
+  spec.license       = 'Expat'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
