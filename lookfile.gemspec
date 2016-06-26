@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'File versioning to save all files that you need a ' \
                        'backup'
-  spec.description   = 'Version files usage on day-to-day can be cansative ' \
-                       'and exaustive, mainly because that files are on ' \
+  spec.description   = 'Version files usage on day-to-day can be tiring ' \
+                       'and exhausting, mainly because that files are on ' \
                        "diferent folders, and group there it's a hard work " \
                        ', therefore, the people does not can version that ' \
                        "file. With this gem it's can change, because this " \
