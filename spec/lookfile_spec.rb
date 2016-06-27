@@ -4,6 +4,7 @@ require 'fileutils'
 describe Lookfile do
   before do
     stub_const('Lookfile::BASE_DIR', BASE_DIR)
+    stub_const('Git::SHOW_PUSH_MESSAGE', false)
     Dir.mkdir(BASE_DIR)
     Dir.mkdir(GIT_DIR)
     `git -C '#{GIT_DIR}' init --bare`

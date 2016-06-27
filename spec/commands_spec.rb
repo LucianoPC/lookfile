@@ -13,6 +13,7 @@ describe Command do
     $stdin = STDIN
     $stdout = STDOUT
     stub_const('Lookfile::BASE_DIR', BASE_DIR)
+    stub_const('Git::SHOW_PUSH_MESSAGE', false)
     Dir.mkdir(BASE_DIR)
     Dir.mkdir(GIT_DIR)
     `git -C '#{GIT_DIR}' init --bare`
@@ -37,11 +38,11 @@ describe Command do
     end
 
     it 'dont init Lookfile if its already initialized' do
-      Init.run
-
       $stdout = StringIO.new
       Init.run
+      Init.run
       $stdout.rewind
+      $stdout.gets
 
       expect_message = "lookfile was already initialized\n"
       expect($stdout.gets).to eq(expect_message)

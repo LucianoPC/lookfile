@@ -7,6 +7,7 @@ module Git
 
   BASE_DIR = '~/'.freeze
   LOOKFILE_DIR = '.lookfile'.freeze
+  SHOW_PUSH_MESSAGE = true
 
   def load_git_command(base_dir = BASE_DIR)
     directory = Lookfile.load_lookfile_dir(base_dir)
@@ -59,7 +60,10 @@ module Git
 
   def push(base_dir = BASE_DIR)
     git = load_git_command(base_dir)
-    `#{git} push origin master`
+    command = "#{git} push origin master"
+    command += ' 2>/dev/null' unless SHOW_PUSH_MESSAGE
+
+    `#{command}`
   end
 
   def make_commit?(message, base_dir = BASE_DIR)
