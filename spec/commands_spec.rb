@@ -1,12 +1,4 @@
 require 'spec_helper'
-require 'fileutils'
-require 'commands/init'
-require 'commands/add'
-require 'commands/push'
-require 'commands/status'
-require 'commands/show'
-require 'commands/restore'
-require 'commands/set_repository'
 
 describe Command do
   before do
